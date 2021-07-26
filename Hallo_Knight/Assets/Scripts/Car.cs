@@ -31,6 +31,7 @@ public class Car : MonoBehaviour
     //定義欄位 
     // Unity 會以屬性 Inspector 面板為主
     #endregion
+
     #region 認識欄位與四大常用類型
     public float weight = 3.5f;
     public int cc = 2000;
@@ -49,6 +50,7 @@ public class Car : MonoBehaviour
     [Range(2, 10)]
     public int doorcount = 4;
     #endregion
+
     #region 其他類型
     //定義一個RED紅色它的顏色會紅色  前面是顏色名稱 後面是指定的顏色
     // 資料類型 為這個類型命名=類型資料;
@@ -93,13 +95,14 @@ public class Car : MonoBehaviour
     public Transform traCar;
     public SpriteRenderer sprPicture;
     #endregion
+
     #region 事件
     //開始程式後僅執行一次，使用於遊戲初始化的設定
     //沒寫進方法裡面的是預設值 之後在start方法裡面按下播放後
     //會取得start裡面的資料
     private void Start()
     {
-        
+        #region 練習欄位
         //用來輸出任何資料類型,大部分用來除錯
         print("hello~world~:D");
 
@@ -109,6 +112,16 @@ public class Car : MonoBehaviour
         windowSKY = false;
         cc = 3000;
         weight = 9.9f;
+        #endregion
+        //呼叫方法語法: 方法名稱();
+        Drive50();
+        Drive100();
+        Drive(139,"bangbangbang");         //呼叫時小括號內的稱為引數
+        Drive(219, "隆隆隆");              //小括號裡面需要輸入相對應的引數
+        Drive(249);                       //參數有了預設值可以不用給引數 他會先以預設值執行
+        Drive(300, effect: "灰塵");        // 使用多個預設值參數時可以使用 參數名稱 : 值  
+        // 在想要跳過中間的參數只給特定幾個參數時可使用 不然會按照順序的給下去
+
     }
     private void Update()
     {
@@ -116,5 +129,43 @@ public class Car : MonoBehaviour
     }
     #endregion
 
+    #region 方法 (功能、函式)  Method
+    //方法:實作較複雜的行為:汽車往前開、開啟汽車的音響並播放音樂....
+    // 欄位:修飾詞 類型 名稱 指定 預設值;
+    // 方法:修飾詞 傳回類型 名稱 (參數) {程式碼區塊}
+    // 類型: void - 無傳回
+    // 定義方法 : 不會執行必須呼叫，呼叫的方法，在事件內呼叫此方法
+    // 維護性、擴充性
+
+    private void Drive50 ()
+    {
+        print("開車中-時數:50");
+    }
+    private void Drive100()
+    {
+        print("開車中-時數:100");
+    }
+
+    //參數語法:類型名稱  只能寫在小括號裡面使用 並且只能在此方法使用
+    //參數1,參數2,參數3,參數4.....參數N
+    //(理論上可以加無限多的參數，但考慮到性能最多加到10個就好，參數之間用逗號區隔)
+    //參數預設值 :類型 參數名稱 指定 值 (選填式參數)
+    // 預設值只能放在最右邊
+
+    /// <summary>
+    /// 這是開車的方法，可以用來控制車子的速度、音效與特效。 
+    /// </summary>
+    /// <param name="speed">車子的移動速度</param>
+    /// <param name="sound">開車時的音效</param>
+    /// <param name="effect">開車時的特效</param>
+    private void Drive(int speed,string sound="蹦蹦蹦",string effect="碎石")
+    {
+        print("開車中-時數:"+speed);
+        print("開車音效:" + sound);
+        print("開特特效:" + effect);
+
+    }
+
+    #endregion
 
 }
