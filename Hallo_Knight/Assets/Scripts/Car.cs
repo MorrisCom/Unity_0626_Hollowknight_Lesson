@@ -51,6 +51,8 @@ public class Car : MonoBehaviour
     public int doorcount = 4;
     #endregion
 
+    
+
     #region 其他類型
     //定義一個RED紅色它的顏色會紅色  前面是顏色名稱 後面是指定的顏色
     // 資料類型 為這個類型命名=類型資料;
@@ -116,11 +118,19 @@ public class Car : MonoBehaviour
         //呼叫方法語法: 方法名稱();
         Drive50();
         Drive100();
-        Drive(139,"bangbangbang");         //呼叫時小括號內的稱為引數
-        Drive(219, "隆隆隆");              //小括號裡面需要輸入相對應的引數
-        Drive(249);                       //參數有了預設值可以不用給引數 他會先以預設值執行
-        Drive(300, effect: "灰塵");        // 使用多個預設值參數時可以使用 參數名稱 : 值  
-        // 在想要跳過中間的參數只給特定幾個參數時可使用 不然會按照順序的給下去
+        Drive(139, "bangbangbang");           //呼叫時小括號內的稱為引數
+        Drive(219, "隆隆隆");                 //小括號裡面需要輸入相對應的引數
+        Drive(249);                          //參數有了預設值可以不用給引數 他會先以預設值執行
+        Drive(300, effect: "灰塵");           //使用多個預設值參數時可以使用 參數名稱 : 值  
+                                            // 在想要跳過中間的參數只給特定幾個參數時可使用 不然會按照順序的給下去
+
+
+
+
+        float kg = KG();
+        print("汽車單位為:" + kg + "公斤");                      //區域變數，只能在此括號上使用
+
+        print("這是我的BMI計算值:"+BMIcount(69,1.69F));          //直接將方法當傳回值使用
 
     }
     private void Update()
@@ -165,7 +175,25 @@ public class Car : MonoBehaviour
         print("開特特效:" + effect);
 
     }
+    /// <summary>
+    /// 計算公斤資料的轉換
+    /// </summary>
+    /// <returns>公噸換成公斤的轉換</returns>
+    private float KG()
+    {
+        return weight * 1000;
+    }
 
+    /// <summary>
+    /// 計算BMI
+    /// </summary>
+    /// <param name="weight">體重(公斤)</param>
+    /// <param name="height">身高(公尺)</param>
+    /// <returns></returns>
+    private float BMIcount( float weight , float height )
+    {
+        return weight / (height*height);
+    }
     #endregion
 
 }
