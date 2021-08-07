@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
         // 作用 :取得此物件的2D剛體元件
         Rig = GetComponent<Rigidbody2D>();
         spr = GetComponent<SpriteRenderer>();
+        ani = GetComponent<Animator>();
     }
 
     // 一秒鐘大約執行60次 不固定
@@ -50,6 +51,7 @@ public class Player : MonoBehaviour
         PlayerInputHorizontal();
         TurnDirection();
         Jump();
+        Attack();
     }
 
     // 固定更新事件
@@ -93,7 +95,9 @@ public class Player : MonoBehaviour
         **/
         /** 第二種移動方法 : 使用專案內的重力 - 較緩慢 */
         Rig.velocity = new Vector2(horizontal * speed * Time.fixedDeltaTime, Rig.velocity.y);
-        
+        // 控制走路開關: horzontal 不等於 0 時 開啟走路動畫 等於0時取消
+        ani.SetBool("走路開關", horizontal != 0);
+
     }
 
     private void TurnDirection()
@@ -125,7 +129,9 @@ public class Player : MonoBehaviour
         // 判斷式如果只有一個結束符號 ; 可以省略大括號 {}
         if (hit) isground = true;
         else isground = false;
-        
+
+        // 設定動畫參數 與 是否在地板上相反
+        ani.SetBool("跳躍開關", !isground);
        
 
         // 如果 玩家按下空白鍵 角色就往上跳
@@ -134,12 +140,41 @@ public class Player : MonoBehaviour
             Rig.AddForce (new Vector2(0,jumpheight));
         }
     }
+
+
+    [Header("攻擊冷卻"), Range(0, 5)]
+    public float CD = 2;
+
+    /// <summary>
+    /// 攻擊計時器
+    /// </summary>
+    private float timer;
+
+    /// <summary>
+    /// 是否攻擊
+    /// </summary>
+    private bool isattack;
+
     /// <summary>
     /// 攻擊
     /// </summary>
     private void Attack()
     {
+        // 如果 按下 左鍵 啟動觸發參數
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            isattack = true;
+            ani.SetTrigger("攻擊觸發");
+            
 
+        }
+
+        // 如果按下左鍵就開始累加計時器
+        if (isattack)
+        {
+            timer += Time.deltaTime;
+            print("攻擊後累加時間:" + timer);
+        }
     }
     /// <summary>
     /// 受傷
