@@ -21,7 +21,7 @@ public class LearnOpeator : MonoBehaviour
     void Start()
     {
         #region 數學運算子
-        print(a + b); //13
+       print(a + b); //13
        print(a - b); //7
        print(a * b); //30 
        print(a / b); //3

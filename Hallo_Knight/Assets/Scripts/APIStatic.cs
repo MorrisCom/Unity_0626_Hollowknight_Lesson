@@ -27,7 +27,7 @@ public class APIStatic : MonoBehaviour
 
         // 2. 設定 
         // 語法:類別.靜態屬性 指定 值;
-        Cursor.visible = false;
+        Cursor.visible = false;  //滑鼠點擊後無法顯示
 
         // Random.value = 7.7f; //-唯獨屬性無法修改 READ Only
         Screen.fullScreen = true;
