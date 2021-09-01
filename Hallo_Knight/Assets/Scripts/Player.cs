@@ -28,6 +28,21 @@ public class Player : MonoBehaviour
     Rigidbody2D Rig;
     Animator ani;
     SpriteRenderer spr;
+
+
+    [Header("攻擊冷卻"), Range(0, 5)]
+    public float CD = 2;
+
+    /// <summary>
+    /// 攻擊計時器
+    /// </summary>
+    private float timer;
+
+    /// <summary>
+    /// 是否攻擊
+    /// </summary>
+    private bool isattack;
+
     #endregion
 
 
@@ -142,26 +157,15 @@ public class Player : MonoBehaviour
     }
 
 
-    [Header("攻擊冷卻"), Range(0, 5)]
-    public float CD = 2;
-
-    /// <summary>
-    /// 攻擊計時器
-    /// </summary>
-    private float timer;
-
-    /// <summary>
-    /// 是否攻擊
-    /// </summary>
-    private bool isattack;
+    
 
     /// <summary>
     /// 攻擊
     /// </summary>
     private void Attack()
     {
-        // 如果 按下 左鍵 啟動觸發參數
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        // 如果 不是攻擊中 並且  按下左鍵 才可以攻擊 啟動觸發參數
+        if (!isattack && Input.GetKeyDown(KeyCode.Mouse0))
         {
             isattack = true;
             ani.SetTrigger("攻擊觸發");
@@ -172,8 +176,17 @@ public class Player : MonoBehaviour
         // 如果按下左鍵就開始累加計時器
         if (isattack)
         {
-            timer += Time.deltaTime;
-            print("攻擊後累加時間:" + timer);
+            if (timer<CD)
+            {
+                timer += Time.deltaTime;
+                print("攻擊後累加時間:" + timer);
+            }
+            else
+            {
+                timer = 0;
+                isattack = false;
+                
+            }
         }
     }
     /// <summary>
@@ -202,7 +215,6 @@ public class Player : MonoBehaviour
 
     }
 
-    
    
     // 繪製圖示事件 : 輔助開發者用,僅會顯示在編輯器 Unity內
     // 僅僅是一個圖示 但是能方便我們認出他在哪裡

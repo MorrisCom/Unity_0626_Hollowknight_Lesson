@@ -17,6 +17,7 @@ public class CameraControl : MonoBehaviour
     /// 要追蹤的目標
     /// </summary>
     private Transform target;
+    private GameObject spr;
 
     #endregion
 
@@ -27,7 +28,7 @@ public class CameraControl : MonoBehaviour
         target = GameObject.Find(nametraget).transform;
     }
 
-    //較慢更新:在update 後執行 建議用於攝影機
+    //較慢更新:在update之後執行 (update執行1禎 lateupdate會執行慢一禎) 建議用於攝影機
     private void LateUpdate()
     {
         track();
