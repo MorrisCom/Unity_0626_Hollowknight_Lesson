@@ -73,6 +73,11 @@ public class BaseEnemy : MonoBehaviour
     {
         Checkstate();
     }
+
+    private void FixedUpdate()
+    {
+        Walkinfixedupdate();
+    }
     #endregion
 
     #region  方法
@@ -113,6 +118,7 @@ public class BaseEnemy : MonoBehaviour
         if (timerIdle<timeIdle)                                       // 如果 計時器 <等待的時間
         {
             timerIdle += Time.deltaTime;                              // 計時器累加
+            ani.SetBool("走路開關", false);
         }
         else                                                           // 否則
         {
@@ -130,14 +136,39 @@ public class BaseEnemy : MonoBehaviour
         if (timerwalk<timewalk)
         {
             timerwalk += Time.deltaTime;
-            rig.velocity = transform.right * speed * Time.deltaTime;
+            ani.SetBool("走路開關", true);
+
         }
         else
         {
+            rig.velocity = Vector2.zero;
+            RandomDirection();
             state = EnemyState.idle;
             timeIdle = Random.Range(v2randomIdle.x, v2randomIdle.y);
             timerwalk = 0;
         }
+    }
+
+    /// <summary>
+    /// 將物理行為單獨處理並在 Fixedupdate 呼叫
+    /// </summary>
+    private void Walkinfixedupdate()
+    {
+        // 如果 目前狀態 是移動 就 剛體.加速度 = 右邊 * 速度 * 1/50 + 上方 * 地心引力
+        if (state == EnemyState.walk) rig.velocity = transform.right * speed * Time.deltaTime + Vector3.up * rig.velocity.y;
+    }
+    /// <summary>
+    /// 隨機方向 : 面向右邊或左邊
+    /// 值為1時 , 左邊: 0, 180, 0
+    /// 值為0時 , 右邊: 0,0 ,0
+    /// </summary>
+    private void RandomDirection()
+    {
+        //隨機範圍(最大．最小)－整數時不包含最大值(0．２)－隨機取得0或1
+        int random = Random.Range(0, 2);
+
+        if (random == 0) transform.eulerAngles = Vector2.up * 180;
+        else transform.eulerAngles = Vector2.zero;
     }
     #endregion 
 }
